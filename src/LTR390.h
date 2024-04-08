@@ -32,6 +32,7 @@
 typedef enum {
   LTR390_MODE_ALS,
   LTR390_MODE_UVS,
+  LTR390_MODE_SLEEP
 } ltr390_mode_t;
 
 /*!    @brief  Sensor gain for UV or ALS  */
@@ -70,8 +71,6 @@ public:
 
   void setMode(ltr390_mode_t mode);
   ltr390_mode_t getMode(void);
-
-  void setSleepMode(bool sleep);
 
   void setGain(ltr390_gain_t gain);
   ltr390_gain_t getGain(void);
