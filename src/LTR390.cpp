@@ -146,25 +146,33 @@ bool LTR390::enabled(void) {
  */
 void LTR390::setMode(ltr390_mode_t mode) {
   uint8_t _r = readRegister(LTR390_MAIN_CTRL);
-  _r &= 0xF7;  // Clear the mode bits
   if (mode == LTR390_MODE_SLEEP) {
-    // Set SW Reset bit to enter sleep mode
-    _r |= (1 << 4);
+    // Clear ALS/UVS Enable bit to enter standby mode
+    _r &= ~(1 << 1);
   } else {
-    // Clear SW Reset bit to exit sleep mode
-    _r &= ~(1 << 4);
+    // Set ALS/UVS Enable bit to exit standby mode
+    _r |= (1 << 1);
     // Set the mode bits
-    _r |= ((uint8_t)mode << 3);
+    _r &= ~(1 << 3); // Clear the mode bit
+    _r |= ((uint8_t)mode << 3); // Set the mode bit
   }
   writeRegister(LTR390_MAIN_CTRL, (uint8_t)_r);
 }
 
+
 /*!
  *  @brief  get the sensor's mode
- *  @returns The current mode - LTR390_MODE_UVS or LTR390_MODE_ALS
+ *  @returns The current mode - LTR390_MODE_UVS, LTR390_MODE_ALS or LTR390_MODE_SLEEP
  */
 ltr390_mode_t LTR390::getMode(void) {
   uint8_t _r = readRegister(LTR390_MAIN_CTRL);
+  
+  // Check Bit 1 for standby mode
+  if (((_r >> 1) & 0x01) == 0) {
+    return LTR390_MODE_SLEEP;
+  }
+  
+  // Shift right to move the mode bit to the least significant position and mask all other bits
   _r >>= 3;
   _r &= 1;
   return (ltr390_mode_t)_r;
