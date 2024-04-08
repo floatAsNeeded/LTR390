@@ -32,7 +32,7 @@
 typedef enum {
   LTR390_MODE_ALS,
   LTR390_MODE_UVS,
-  LTR390_MODE_SLEEP
+  LTR390_MODE_SLEEP,
 } ltr390_mode_t;
 
 /*!    @brief  Sensor gain for UV or ALS  */
