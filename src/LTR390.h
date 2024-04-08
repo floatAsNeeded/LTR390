@@ -79,6 +79,8 @@ public:
   void setMode(ltr390_mode_t mode);
   ltr390_mode_t getMode(void);
 
+  void setSleepMode(bool sleep);
+
   void setGain(ltr390_gain_t gain);
   ltr390_gain_t getGain(void);
 
