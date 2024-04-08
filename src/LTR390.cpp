@@ -151,6 +151,18 @@ void LTR390::setMode(ltr390_mode_t mode) {
   writeRegister(LTR390_MAIN_CTRL, (uint8_t)_r);
 }
 
+void LTR390::setSleepMode(bool sleep) {
+  uint8_t regValue = readRegister(LTR390_MAIN_CTRL);
+  if (sleep) {
+    // Set SW Reset bit to enter sleep mode
+    regValue |= (1 << 4);
+  } else {
+    // Clear SW Reset bit to exit sleep mode
+    regValue &= ~(1 << 4);
+  }
+  writeRegister(LTR390_MAIN_CTRL, regValue);
+}
+
 /*!
  *  @brief  get the sensor's mode
  *  @returns The current mode - LTR390_MODE_UVS or LTR390_MODE_ALS
