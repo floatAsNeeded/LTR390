@@ -21,6 +21,10 @@ LTR390::LTR390(TwoWire *w){
     i2cAddress = LTR390_ADDRESS;
 }
 
+LTR390::LTR390() {
+  WFAC = 1.0; 
+}
+
 bool LTR390::init() {
   uint8_t part_id = readRegister(LTR390_PART_ID);
 
@@ -102,7 +106,7 @@ float LTR390::getLux(){
   uint32_t raw = readALS();
   uint8_t _gain = (uint8_t)(getGain());
   uint8_t _resolution = (uint8_t)(getResolution());
-  float lux = 0.6 * (float)(raw) / (gain_factor[_gain] * res_factor[_resolution]) * (float)(WFAC);
+  float lux = 0.6 * (float)(raw) / (gain_factor[_gain] * res_factor[_resolution]) * WFAC;
   return lux;
 }
 
@@ -110,7 +114,7 @@ float LTR390::getUVI(){
   uint32_t raw = readUVS();
   uint8_t _gain = (uint8_t)(getGain());
   uint8_t _resolution = (uint8_t)(getResolution());
-  float uvi = (float)(raw) / ((gain_factor[_gain] / gain_factor[LTR390_GAIN_18]) * (res_factor[_resolution] / res_factor[LTR390_RESOLUTION_20BIT]) * (float)(UV_SENSITIVITY)) * (float)(WFAC);
+  float uvi = (float)(raw) / ((gain_factor[_gain] / gain_factor[LTR390_GAIN_18]) * (res_factor[_resolution] / res_factor[LTR390_RESOLUTION_20BIT]) * (float)(UV_SENSITIVITY)) * WFAC;
   return uvi;
 }
 
