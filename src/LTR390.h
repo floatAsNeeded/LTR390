@@ -100,6 +100,7 @@ public:
 
   uint8_t writeRegister(uint8_t reg, uint8_t val);
   uint8_t readRegister(uint8_t reg);
+  float WFAC;  // Declare WFAC as a public member variable
 
 private:
   TwoWire *_wire;
