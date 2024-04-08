@@ -141,26 +141,22 @@ bool LTR390::enabled(void) {
 
 /*!
  *  @brief  Set the sensor mode to EITHER ambient (LTR390_MODE_ALS) or UV
- * (LTR390_MODE_UVS)
- *  @param  mode The desired mode - LTR390_MODE_UVS or LTR390_MODE_ALS
+ * (LTR390_MODE_UVS) or LTR390_MODE_SLEEP
+ *  @param  mode The desired mode - LTR390_MODE_UVS , LTR390_MODE_ALS or LTR390_MODE_SLEEP
  */
 void LTR390::setMode(ltr390_mode_t mode) {
   uint8_t _r = readRegister(LTR390_MAIN_CTRL);
-  _r &= 0xF7;
-  _r |= ((uint8_t)mode << 3);
-  writeRegister(LTR390_MAIN_CTRL, (uint8_t)_r);
-}
-
-void LTR390::setSleepMode(bool sleep) {
-  uint8_t regValue = readRegister(LTR390_MAIN_CTRL);
-  if (sleep) {
+  _r &= 0xF7;  // Clear the mode bits
+  if (mode == LTR390_MODE_SLEEP) {
     // Set SW Reset bit to enter sleep mode
-    regValue |= (1 << 4);
+    _r |= (1 << 4);
   } else {
     // Clear SW Reset bit to exit sleep mode
-    regValue &= ~(1 << 4);
+    _r &= ~(1 << 4);
+    // Set the mode bits
+    _r |= ((uint8_t)mode << 3);
   }
-  writeRegister(LTR390_MAIN_CTRL, regValue);
+  writeRegister(LTR390_MAIN_CTRL, (uint8_t)_r);
 }
 
 /*!
