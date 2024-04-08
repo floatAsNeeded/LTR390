@@ -41,7 +41,7 @@ void setup() {
     case LTR390_RESOLUTION_19BIT: Serial.println(19); break;
     case LTR390_RESOLUTION_20BIT: Serial.println(20); break;
   }
-
+  myLTR390.WFAC = 1; // Set according to window. The default value with no window is one
   //ltr390.setThresholds(100, 1000);
   //ltr390.configInterrupt(true, LTR390_MODE_UVS);
 
