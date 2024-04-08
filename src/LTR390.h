@@ -11,14 +11,6 @@
 
 #define UV_SENSITIVITY  1400
 
-#define WFAC            1
-/*
-*  For device under tinted window with coated-ink of flat transmission rate at 400-600nm wavelength,  
-*  window factor  is to  compensate light  loss due to the  lower  transmission rate from the coated-ink. 
-*     a. WFAC = 1 for NO window / clear window glass. 
-*     b. WFAC >1 device under tinted window glass. Calibrate under white LED. 
-*/
-
 #define LTR390_ADDRESS 0x53         ///< I2C address
 #define LTR390_MAIN_CTRL 0x00       ///< Main control register
 #define LTR390_MEAS_RATE 0x04       ///< Resolution and data rate
@@ -103,6 +95,13 @@ public:
   uint8_t writeRegister(uint8_t reg, uint8_t val);
   uint8_t readRegister(uint8_t reg);
   float WFAC;  // Declare WFAC as a public member variable
+
+/*
+*  For device under tinted window with coated-ink of flat transmission rate at 400-600nm wavelength,  
+*  window factor  is to  compensate light  loss due to the  lower  transmission rate from the coated-ink. 
+*     a. WFAC = 1 for NO window / clear window glass. 
+*     b. WFAC >1 device under tinted window glass. Calibrate under white LED. 
+*/
 
 private:
   TwoWire *_wire;
