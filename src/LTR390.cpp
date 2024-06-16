@@ -120,8 +120,11 @@ float LTR390::getUVI(){
  */
 void LTR390::enable(bool en) {
   uint8_t _r = readRegister(LTR390_MAIN_CTRL);
-  _r |= (1 << 1);
-  writeRegister(LTR390_MAIN_CTRL, (uint8_t)_r);
+  // Clear the ALS/UVS Enable bit
+  _r &= ~(1 << 1);
+  // Set the ALS/UVS Enable bit if 'en' is true
+  _r |= (en << 1);
+  writeRegister(LTR390_MAIN_CTRL, _r);
 }
 
 /*!
